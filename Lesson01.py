@@ -148,5 +148,12 @@ plt.ylabel("loss")
 plt.legend();
 
 # %%
-model_0.state_dict()
+# making predictions using the model
+model_0.eval()
+with torch.inference_mode():
+    y_preds = model_0(X_test)
+y_preds
+
+# %%
+plot_predictions(predictions=y_preds)
 # %%
