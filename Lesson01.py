@@ -157,3 +157,23 @@ y_preds
 # %%
 plot_predictions(predictions=y_preds)
 # %%
+# saving a model 
+from pathlib import Path
+
+MODEL_PATH = Path("Models")
+MODEL_PATH.mkdir(parents=True, exist_ok=True)
+MODEL_NAME = "01_pytorch_workflow_model_0.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+print(f"Saving the model to: {MODEL_SAVE_PATH}")
+torch.save(obj=model_0.state_dict(), f=MODEL_SAVE_PATH)
+!ls -l Models/01_pytorch_workflow_model_0.pth
+# %%
+# loading the state dict
+loaded_model_0 = LinearRegressionModel()
+loaded_model_0.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+loaded_model_0.eval()
+with torch.inference_mode():
+    load_model_preds = loaded_model_0(X_test)
+plot_predictions(predictions=load_model_preds)
+load_model_preds == y_preds
